@@ -1,67 +1,82 @@
 package entities;
-
-import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
-package entities;
-
 import java.io.Serializable;
 
 /**
- * The persistent class for the cliente database table.
+ * 
  * 
  */
 @Entity
-@NamedQuery(name="Cliente.findAll", query="SELECT t FROM Cliente t")
+@NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-
-	private String nombre;
-
-	private String email;
 
 	private String clave;
 
+	private String email;
+
+	private String nombre;
+
+	//bi-directional many-to-many association to Tienda
+	@ManyToMany(mappedBy="clientes")
+	private List<Tienda> tiendas;
+
+	public Cliente() {
+	}
+	
+	public Cliente(int id, String clave, String email, String nombre) {
+		super();
+		this.id = id;
+		this.clave = clave;
+		this.email = email;
+		this.nombre = nombre;
+	}
+
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getClave() {
-		return clave;
+		return this.clave;
 	}
 
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getEmail() {
+		return this.email;
 	}
-}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public List<Tienda> getTiendas() {
+		return this.tiendas;
+	}
+
+	public void setTiendas(List<Tienda> tiendas) {
+		this.tiendas = tiendas;
+	}
+
+}
 	
 

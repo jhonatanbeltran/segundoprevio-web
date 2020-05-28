@@ -1,63 +1,75 @@
 package entities;
-
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
+
 
 
 /**
- * The persistent class for the asesor database table.
+ * 
  * 
  */
 @Entity
-@NamedQuery(name="Servicio.findAll", query="SELECT a FROM Servicio a")
+@NamedQuery(name="Servicio.findAll", query="SELECT s FROM Servicio s")
 public class Servicio implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	
+
+	@Lob
+	private String descripcion;
+
 	private String nombre;
+
+	//bi-directional many-to-one association to Tienda
+	@ManyToOne
+	@JoinColumn(name="tienda")
+	private Tienda tiendaBean;
+
+	public Servicio() {
+	}
 	
-	private String email;
-	
-	private String clave;
+	public Servicio(int id, String descripcion, String nombre, Tienda tiendaBean) {
+		super();
+		this.id = id;
+		this.descripcion = descripcion;
+		this.nombre = nombre;
+		this.tiendaBean = tiendaBean;
+	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	public String getNombre() {
-		return nombre;
+		return this.nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-	public String getEmail() {
-		return email;
+	public Tienda getTiendaBean() {
+		return this.tiendaBean;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setTiendaBean(Tienda tiendaBean) {
+		this.tiendaBean = tiendaBean;
 	}
 
-	public String getClave() {
-		return clave;
-	}
-
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }
 	
 	

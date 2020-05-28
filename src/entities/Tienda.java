@@ -1,12 +1,12 @@
 package entities;
-
-import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import java.io.Serializable;
+
 
 
 /**
- * The persistent class for the tipoasesor database table.
+ * 
  * 
  */
 @Entity
@@ -15,53 +15,81 @@ public class Tienda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	private String nombre;
-	
-	private String lema;
-	
-	private String descripcion;
-	
-	private String email;
-	
 	private String clave;
-	
-	private String propietario;
-	
+
+	@Lob
+	private String descripcion;
+
+	private String email;
+
 	private String facebook;
-	
-	private String web;
-	
+
 	private String imagen;
 
+	private String lema;
+
+	private String nombre;
+
+	private String propietario;
+
+	private String web;
+
+	//bi-directional many-to-many association to Cliente
+	@ManyToMany
+	@JoinTable(
+		name="seguir"
+		, joinColumns={
+			@JoinColumn(name="tienda")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="cliente")
+			}
+		)
+	private List<Cliente> clientes;
+
+	//bi-directional many-to-one association to Servicio
+	@OneToMany(mappedBy="tiendaBean")
+	private List<Servicio> servicios;
+
+	public Tienda() {
+	}
+	
+	public Tienda(int id, String clave, String descripcion, String email, String facebook, String imagen, String lema,
+			String nombre, String propietario, String web) {
+		super();
+		this.id = id;
+		this.clave = clave;
+		this.descripcion = descripcion;
+		this.email = email;
+		this.facebook = facebook;
+		this.imagen = imagen;
+		this.lema = lema;
+		this.nombre = nombre;
+		this.propietario = propietario;
+		this.web = web;
+	}
+
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getClave() {
+		return this.clave;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getLema() {
-		return lema;
-	}
-
-	public void setLema(String lema) {
-		this.lema = lema;
+	public void setClave(String clave) {
+		this.clave = clave;
 	}
 
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
 
 	public void setDescripcion(String descripcion) {
@@ -69,59 +97,89 @@ public class Tienda implements Serializable {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getClave() {
-		return clave;
-	}
-
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-
-	public String getPropietario() {
-		return propietario;
-	}
-
-	public void setPropietario(String propietario) {
-		this.propietario = propietario;
-	}
-
 	public String getFacebook() {
-		return facebook;
+		return this.facebook;
 	}
 
 	public void setFacebook(String facebook) {
 		this.facebook = facebook;
 	}
 
-	public String getWeb() {
-		return web;
-	}
-
-	public void setWeb(String web) {
-		this.web = web;
-	}
-
 	public String getImagen() {
-		return imagen;
+		return this.imagen;
 	}
 
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getLema() {
+		return this.lema;
 	}
-	
-	
 
+	public void setLema(String lema) {
+		this.lema = lema;
+	}
 
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getPropietario() {
+		return this.propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
+	}
+
+	public String getWeb() {
+		return this.web;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
+	}
+
+	public List<Cliente> getClientes() {
+		return this.clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public List<Servicio> getServicios() {
+		return this.servicios;
+	}
+
+	public void setServicios(List<Servicio> servicios) {
+		this.servicios = servicios;
+	}
+
+	public Servicio addServicio(Servicio servicio) {
+		getServicios().add(servicio);
+		servicio.setTiendaBean(this);
+
+		return servicio;
+	}
+
+	public Servicio removeServicio(Servicio servicio) {
+		getServicios().remove(servicio);
+		servicio.setTiendaBean(null);
+
+		return servicio;
+	}
 
 }
