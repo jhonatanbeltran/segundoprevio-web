@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Carrera;
+import entities.Tienda;
 import services.SeguirDao;
+import services.TiendaDao;
 
 /**
  * Servlet implementation class ActualizarCarreraControler
@@ -42,23 +44,35 @@ public class TiendaController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(esValido(request.getParameter("codigo"))&& esValido(request.getParameter("nombre"))&& esValido(request.getParameter("credito"))&& esValido(request.getParameter("semestre") )) {
-			String codigo = request.getParameter("codigo");
-			String nombre = request.getParameter("nombre");
-			int credito=Integer.parseInt(request.getParameter("credito"));
-			int semestre=Integer.parseInt(request.getParameter("semestre"));	
-			Carrera c = new Carrera();
-			SeguirDao cDao = new SeguirDao();
-			c.setCodigo(codigo);
-			c.setNombre(nombre);
-			c.setCredito(credito);
-			c.setSemestre(semestre);
+		{
+			String nombre = request.getParameter("codigo");
+			String lema = request.getParameter("lema");
+			String descripcion = request.getParameter("descripcion");
+			String email = request.getParameter("email");
+			String clave = request.getParameter("clave");
+			String propietario = request.getParameter("propietario");
+			String facebook = request.getParameter("facebook");
+			String web = request.getParameter("web");
+			String imagen = request.getParameter("imagen");
 			
-			cDao.update(c);
-			response.sendRedirect("index.jsp?estado=Success");
+				
+			Tienda t = new Tienda();
+			TiendaDao tDao = new TiendaDao();
+			t.setNombre(nombre);
+			t.setLema(lema);
+			t.setDescripcion(descripcion);
+			t.setEmail(email);
+			t.setClave(clave);
+			t.setPropietario(propietario);
+			t.setFacebook(facebook);
+			t.setWeb(web);
+			t.setImagen(imagen);
+			
+			tDao.update(t);
+			response.sendRedirect("index.jsp");
 		
 		}else {
-			response.sendRedirect("index.jsp?estado=Fail");
+			response.sendRedirect("index.jsp");
 		}
 			
 		
