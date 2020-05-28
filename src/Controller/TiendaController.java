@@ -14,13 +14,13 @@ import services.SeguirDao;
  * Servlet implementation class ActualizarCarreraControler
  */
 @WebServlet("/ActualizarCarreraControler")
-public class ActualizarCarreraControler extends HttpServlet {
+public class TiendaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ActualizarCarreraControler() {
+    public TiendaController() {
         super();
         // TODO Auto-generated constructor stub
     }
